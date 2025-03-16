@@ -1,0 +1,28 @@
+.table-info-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5em;
+    margin-inline: 1em;
+}
+
+.table-info-container{
+    margin: 1em;
+}
+
+.items-list-container{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em
+}
+
+.table-info-name{
+    font-size: 3.5em;
+    width: 100%;
+    border: none;
+}
+
+.table-info-name:focus{
+    outline: none;
+}

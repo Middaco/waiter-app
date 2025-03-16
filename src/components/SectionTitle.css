@@ -1,0 +1,21 @@
+.dashed-line{
+    flex-grow: 1;
+    border: 1px dashed grey;
+}
+
+.section-title-container{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    max-width: calc(100% - 1em);
+    color:grey;
+    margin: 0.5em;
+}
+
+.title{
+    display: inline;
+    block-size: fit-content;
+    margin-right: 0.2em;
+    line-height: 1;
+}

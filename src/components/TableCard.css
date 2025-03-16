@@ -1,0 +1,33 @@
+/*
+Problems regarding the CSS file:
+- margin right was not applying because of the width 100%, that takes the space of the margin too
+*/
+
+.table-card-container{
+    background-color: #D9D9D9;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin: 1.5em;
+    padding-inline: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center; 
+    justify-content: space-between;   
+}
+
+.table-card-container:hover{
+    background-color: #696969;
+    cursor: pointer;
+}
+
+.table-card-info > h1{
+    margin-block: 0.2em;
+}
+
+.table-card-info > p{
+    margin-bottom: 0;
+}
+
+.table-card-info > ul{
+    margin-top: 0;
+}
