@@ -5,7 +5,8 @@ import Timer from "../components/Timer"
 import Separator from "../components/Separator"
 import "./TableInfoPage.css"
 import SectionTitle from "../components/SectionTitle"
-import { Checkbox, FormControlLabel } from "@mui/material"
+import ChecklistItem from "../components/ChecklistItem"
+import { Radio, FormControlLabel, RadioGroup } from "@mui/material"
 
 export default function TableInfoPage() {
     const tableId = useParams().id
@@ -13,6 +14,8 @@ export default function TableInfoPage() {
     const [barItems, setBarItems] = useState([])
     const [kitchenItems, setKitchenItems] = useState([])
     const [flag, setFlag] = useState(0)
+    const [newItem, setnewItem] = useState()
+    const [selectedLabel, setSelectedLabel] = useState()
 
     useEffect(() => {
         fetch(`/api/tables/${tableId}`)
@@ -24,7 +27,7 @@ export default function TableInfoPage() {
         fetch(`/api/tables/${tableId}/kitchen`)
             .then(response => response.json())
             .then(data => setKitchenItems(data))
-    },[flag])
+    },[flag, tableId])
 
     return (
         <div
@@ -46,31 +49,82 @@ export default function TableInfoPage() {
                 <Timer timer={table.timer} />
             </header>
             <Separator />
+            <div className="input-container">
+                <input 
+                    style={{
+                        width:"100%",
+                        fontSize:"2em",
+                        marginTop:"0.5em",
+                        padding:"0.25em",
+                        boxSizing:"border-box"
+                    }}
+                    type="text" 
+                    classname="input-field" 
+                    placeholder="Produs nou..."
+                    value={newItem}
+                    onChange = {e => setnewItem(e.target.value)}
+                    onKeyDown={e => {
+                        if(e.key === "Enter")
+                            fetch(`/api/table/${tableId}/newItem`, {
+                                method: "POST",
+                                body: {
+                                    item: newItem,
+                                    type: selectedLabel
+                                }
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if(selectedLabel === "bar"){
+                                    setBarItems(data)
+                                }else{
+                                    setKitchenItems(data)
+                                }
+                            })
+                            .then(setnewItem(''))
+                    }}
+                />
+                <RadioGroup
+                    defaultValue=""
+                    row
+                    onChange={e => setSelectedLabel(e.target.value)}
+                >
+                    <FormControlLabel
+                        control={<Radio/>}
+                        label={"Bar"}
+                        value="bar"
+                    />
+                    <FormControlLabel
+                        control={<Radio/>}
+                        label={"Bucătărie"}
+                        value="kitchen"
+                    />
+                </RadioGroup>
+            </div>
             <SectionTitle title="Bar" />
             <ul className="items-list-container">
-                {barItems.map(item => (
-                    <FormControlLabel
-                        control={<Checkbox />}
-                        label={item.item}
-                        checked={item.isDelivered}
-                        onChange={e => {
-                            fetch(`api/tables/${tableId}/bar/${item.id}/deliver`, {
-                                method: "POST"
-                            })
-                                .then(response => response.json())
-                                .then(data => console.log(data))
-                            setFlag(item.id);
-                        }}
+                {barItems.map((item, index) => (
+                    <ChecklistItem 
+                        item={item}
+                        index={index}
+                        listOfItems={barItems}
+                        setListOfItems={setBarItems}
+                        setFlag={setFlag}
+                        deliveryUrl={`api/tables/${tableId}/bar/${item.id}/deliver`}
+                        createItemUrl={`api/tables/${tableId}/bar`}
                     />
                 ))}
             </ul>
             <SectionTitle title="Bucătărie" />
             <ul className="items-list-container">
-                {kitchenItems.map(item => (
-                    <FormControlLabel
-                        control={<Checkbox />}
-                        label={item.item}
-                        checked={item.isDelivered}
+                {kitchenItems.map((item, index) => (
+                    <ChecklistItem 
+                        item={item}
+                        index={index}
+                        listOfItems={kitchenItems}
+                        setListOfItems={setKitchenItems}
+                        setFlag={setFlag}
+                        deliveryUrl={`api/tables/${tableId}/kitchen/${item.id}/deliver`}
+                        createItemUrl={`api/tables/${tableId}/kitchen`}
                     />
                 ))}
             </ul>

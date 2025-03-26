@@ -23,6 +23,23 @@ export default createServer({
             return schema.tables.all()
         })
 
+        this.post("/api/table/:id/newItem", (schema, request) =>{
+            const tableId = request.params.id
+            const type = request.requestBody.type
+            console.log(request.requestBody)
+            const table = schema.tables.find(tableId)
+            if(type === "bar"){ 
+                const newId = table.barItems.length + 1
+                table.barItems.push({id: newId, item: request.requestBody.item, isDelivered: false})
+                table.update({noBarItems: table.noBarItems + 1})
+                return table.barItems
+            }
+            const newId = table.kitchenItems.length + 1
+            table.kitchenItems.push({id: newId, item: request.requestBody.item, isDelivered: false})
+            table.update({noKitchenItems: table.noKitchenItems + 1})
+            return table.kitchenItems
+        })
+
         this.get("/api/tables/:id", (schema, request) => {
             let id = request.params.id
             return schema.tables.find(id)
@@ -31,6 +48,18 @@ export default createServer({
         this.get("/api/tables/:id/bar", (schema, request) => {
             const id = request.params.id
             return schema.tables.find(id).barItems
+        })
+
+        this.post("/api/tables/:id/bar", (schema, request) => {
+            const tableId = request.params.id
+            console.log(JSON.parse(request.requestBody))
+            const index = JSON.parse(request.requestBody)[1]
+            const newItem = JSON.parse(request.requestBody)[0]
+            newItem.id = schema.tables.find(tableId).barItems.length + 1
+            console.log(newItem)
+
+            schema.tables.find(tableId).barItems.splice(index, 0, newItem)
+            return schema.tables.find(tableId).barItems
         })
 
         this.get("/api/tables/:id/kitchen", (schema, request) => {
@@ -50,12 +79,26 @@ export default createServer({
             const id = JSON.parse(request.params.id);
             const barItemId = JSON.parse(request.params.itemId);
             const table = schema.tables.find(id)
-            const barItem = table.barItems.find(item => item.id == barItemId)
+            const barItem = table.barItems.find(item => item.id === barItemId)
             table.update({
                 barItems: table.barItems.map(
-                    item => item.id == barItemId ? {...item, isDelivered: !item.isDelivered} : item
+                    item => item.id === barItemId ? {...item, isDelivered: !item.isDelivered} : item
                 ),
                 noBarItems: barItem.isDelivered ? table.noBarItems + 1 : table.noBarItems - 1 
+            })
+            return table
+        })
+
+        this.post("api/tables/:id/kitchen/:itemId/deliver", (schema, request) => {
+            const id = JSON.parse(request.params.id);
+            const kitchenItemId = JSON.parse(request.params.itemId);
+            const table = schema.tables.find(id)
+            const kitchenItem = table.kitchenItems.find(item => item.id === kitchenItemId)
+            table.update({
+                kitchenItems: table.kitchenItems.map(
+                    item => item.id === kitchenItemId ? {...item, isDelivered: !item.isDelivered} : item
+                ),
+                noKitchenItems: kitchenItem.isDelivered ? table.noKitchenItems + 1 : table.noKitchenItems - 1 
             })
             return table
         })
