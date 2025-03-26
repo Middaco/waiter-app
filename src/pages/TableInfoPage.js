@@ -110,6 +110,7 @@ export default function TableInfoPage() {
                         setListOfItems={setBarItems}
                         setFlag={setFlag}
                         deliveryUrl={`api/tables/${tableId}/bar/${item.id}/deliver`}
+                        deleteUrl={`api/tables/${tableId}/bar/${item.id}`}
                         createItemUrl={`api/tables/${tableId}/bar`}
                     />
                 ))}
@@ -124,6 +125,7 @@ export default function TableInfoPage() {
                         setListOfItems={setKitchenItems}
                         setFlag={setFlag}
                         deliveryUrl={`api/tables/${tableId}/kitchen/${item.id}/deliver`}
+                        deleteUrl={`api/tables/${tableId}/kitchen/${item.id}`}
                         createItemUrl={`api/tables/${tableId}/kitchen`}
                     />
                 ))}

@@ -1,15 +1,15 @@
 import { FormControlLabel } from "@mui/material";
 import {Checkbox} from "@mui/material";
-
+import DeleteIcon from '@mui/icons-material/Delete';
+import './ChecklistItem.css'
 export default function ChecklistItem(
     {
         item,
-        index,
         listOfItems,
         setListOfItems,
         setFlag,
-        deliveryUrl,
-        createItemUrl
+        deleteUrl,
+        deliveryUrl
     }
 ){
     return(
@@ -42,6 +42,15 @@ export default function ChecklistItem(
             >
                 {item.item}
             </div>
+            <DeleteIcon 
+                className="delete-button"
+                onClick={e => fetch(deleteUrl, {
+                    method:"delete"
+                })
+                    .then(response => response.json())
+                    .then(data => setListOfItems(data))
+                }
+            />
         </div>
     )
 }
