@@ -2,6 +2,7 @@ import { FormControlLabel } from "@mui/material";
 import {Checkbox} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import './ChecklistItem.css'
+import { useState } from "react";
 export default function ChecklistItem(
     {
         item,
@@ -12,25 +13,25 @@ export default function ChecklistItem(
         deliveryUrl
     }
 ){
+    const [isChecked, setIsChecked] = useState(item.isDelivered)
+
     return(
         <div style={{ display: "flex", alignItems: "center"}}>
             <FormControlLabel
                 control={<Checkbox />}
                 style={{ marginRight: "0.25em" }}
-                checked={item.isDelivered}
+                checked={isChecked}
                 onChange={e => {
                     fetch(deliveryUrl, {
                         method: "POST"
                     })
-                        .then(response => response.json())
-                        .then(data => console.log(data))
-                    setFlag(item.isDelivered);
+                    setIsChecked(e.target.checked)
                 }}
             />
             <div
                 contentEditable="true"
                 value={item.item}
-                style={{width: "90%", textDecoration: item.isDelivered ? "line-through" : "none", fontSize: "1.25em"}}
+                style={{width: "90%", textDecoration: isChecked ? "line-through" : "none", fontSize: "1.25em"}}
                 onChange={(e) => {
                     setListOfItems(listOfItems.map(listItem => {
                         if (listItem.id === item.id) {

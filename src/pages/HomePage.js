@@ -2,6 +2,9 @@ import { useEffect } from "react";
 import TableCard from "../components/TableCard";
 import { useState } from "react";
 import SectionTitle from "../components/SectionTitle";
+import CreateTableButton from "../components/CreateTableButton";
+import "./HomePage.css";
+
 export default function HomePage() {
 
     const [tables, setTables] = useState([]);
@@ -15,6 +18,9 @@ export default function HomePage() {
     return (
       <div className="home-page-container">
         <SectionTitle title="Mese active" />
+        <CreateTableButton 
+          setTables={setTables}
+        />
         <div className="list-of-tables">
           {tables.map(table => 
             <TableCard 

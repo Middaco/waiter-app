@@ -36,6 +36,7 @@ export default function TableInfoPage() {
             <header className="table-info-header">
                 <input
                     type="text"
+                    placeholder="Masă"
                     value={table.name}
                     className="table-info-name"
                     onChange={e => {
@@ -59,6 +60,7 @@ export default function TableInfoPage() {
                         boxSizing:"border-box"
                     }}
                     type="text" 
+                    enterKeyHint="done"
                     classname="input-field" 
                     placeholder="Produs nou..."
                     value={newItem}

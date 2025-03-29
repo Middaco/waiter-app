@@ -23,6 +23,22 @@ export default createServer({
             return schema.tables.all()
         })
 
+        this.post("/api/tables", (schema) => {
+            const newId = schema.tables.all().length + 1
+            const newTable = {
+                id: newId, name: ``,
+                isActive: true, 
+                noBarItems: 0, 
+                noKitchenItems: 0, 
+                barItems: [], 
+                kitchenItems: [], 
+                timer: 10
+            }
+            console.log(newTable)
+            schema.tables.create(newTable)
+            return newTable
+        })
+
         this.delete("api/tables/:tableId/bar/:itemId", (schema, request) => {
             const table = schema.tables.find(request.params.tableId)
             const barItems = table.barItems            

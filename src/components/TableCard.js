@@ -15,7 +15,8 @@ export default function TableCard(
         <NavLink 
             style={{
                 textDecoration: 'none',
-                color: 'inherit'
+                color: 'inherit',
+                width: '100%',
             }} 
             to={`/${id}`}>
             <div 
