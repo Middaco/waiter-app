@@ -1,19 +1,14 @@
-import { useEffect } from "react";
 import TableCard from "../components/TableCard";
-import { useState } from "react";
 import SectionTitle from "../components/SectionTitle";
 import CreateTableButton from "../components/CreateTableButton";
 import "./HomePage.css";
+import { useOutletContext } from "react-router";
 
 export default function HomePage() {
 
-    const [tables, setTables] = useState([]);
+    const {tables, setTables} = useOutletContext();
 
-    useEffect(() => {
-        fetch('/api/tables')
-            .then(response => response.json())
-            .then(data => setTables(data.tables));
-    }, []);
+    console.log("render home page")
 
     return (
       <div className="home-page-container">

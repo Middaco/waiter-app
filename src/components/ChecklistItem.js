@@ -8,7 +8,6 @@ export default function ChecklistItem(
         item,
         listOfItems,
         setListOfItems,
-        setFlag,
         deleteUrl,
         deliveryUrl
     }
@@ -26,6 +25,12 @@ export default function ChecklistItem(
                         method: "POST"
                     })
                     setIsChecked(e.target.checked)
+                    setListOfItems(listOfItems.map(listItem => {
+                        if (listItem.id === item.id) {
+                            return { ...listItem, isDelivered: e.target.value }
+                        }
+                        return listItem
+                    }))
                 }}
             />
             <div

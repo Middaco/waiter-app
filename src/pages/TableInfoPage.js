@@ -1,5 +1,4 @@
-import { useEffect } from "react"
-import { useParams } from "react-router"
+import { useNavigate, useParams } from "react-router"
 import { useState } from "react"
 import Timer from "../components/Timer"
 import Separator from "../components/Separator"
@@ -7,33 +6,31 @@ import "./TableInfoPage.css"
 import SectionTitle from "../components/SectionTitle"
 import ChecklistItem from "../components/ChecklistItem"
 import { Radio, FormControlLabel, RadioGroup } from "@mui/material"
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { useOutletContext } from "react-router"
 
 export default function TableInfoPage() {
     const tableId = useParams().id
-    const [table, setTable] = useState({})
-    const [barItems, setBarItems] = useState([])
-    const [kitchenItems, setKitchenItems] = useState([])
-    const [flag, setFlag] = useState(0)
-    const [newItem, setnewItem] = useState()
+    const setTables = useOutletContext().setTables
+    const [table, setTable] = useState(useOutletContext().tables.find(table => table.id === tableId))
+    const [barItems, setBarItems] = useState(table.barItems)
+    const [kitchenItems, setKitchenItems] = useState(table.kitchenItems)
+    const [newItem, setnewItem] = useState('')
     const [selectedLabel, setSelectedLabel] = useState()
-
-    useEffect(() => {
-        fetch(`/api/tables/${tableId}`)
-            .then(response => response.json())
-            .then(data => setTable(data.table))
-        fetch(`/api/tables/${tableId}/bar`)
-            .then(response => response.json())
-            .then(data => setBarItems(data))
-        fetch(`/api/tables/${tableId}/kitchen`)
-            .then(response => response.json())
-            .then(data => setKitchenItems(data))
-    },[flag, tableId])
+    const navigate = useNavigate()
 
     return (
         <div
             className="table-info-container"
         >
-            <header className="table-info-header">
+            <header className="options">
+                <ArrowBackIcon
+                    onClick={() => navigate('/')}
+                />
+                <MoreVertIcon/>
+            </header>
+            <div className="table-info-header">
                 <input
                     type="text"
                     placeholder="Masă"
@@ -41,6 +38,13 @@ export default function TableInfoPage() {
                     className="table-info-name"
                     onChange={e => {
                         setTable({ ...table, name: e.target.value })
+                        setTables(oldTables => oldTables.map(oldTable => {
+                            if(oldTable.id === tableId){
+                                return { ...oldTable, name: e.target.value }
+                            }
+                            return oldTable
+                        }))
+
                         fetch(`/api/tables/${tableId}/name`, {
                             method: "POST",
                             body: JSON.stringify({ name: e.target.value })
@@ -48,7 +52,7 @@ export default function TableInfoPage() {
                     }}
                 />
                 <Timer timer={table.timer} />
-            </header>
+            </div>
             <Separator />
             <div className="input-container">
                 <input 
@@ -66,7 +70,12 @@ export default function TableInfoPage() {
                     value={newItem}
                     onChange = {e => setnewItem(e.target.value)}
                     onKeyDown={e => {
-                        if(e.key === "Enter")
+                        if(e.key === "Enter"){
+                            if(selectedLabel === "bar"){
+                                setBarItems([...barItems, {id: null, item: newItem, isDelivered: false}])
+                            }else{
+                                setKitchenItems([...kitchenItems, {id: null, item: newItem, isDelivered: false}])
+                            }
                             fetch(`/api/table/${tableId}/newItem`, {
                                 method: "POST",
                                 body: {
@@ -76,14 +85,30 @@ export default function TableInfoPage() {
                             })
                             .then(response => response.json())
                             .then(data => {
-                                if(selectedLabel === "bar"){
-                                    setBarItems(data)
-                                }else{
-                                    setKitchenItems(data)
-                                }
+                                setTables(oldTables => oldTables.map(oldTable => {
+                                    if(oldTable.id === tableId){
+                                        if(selectedLabel === "bar"){
+                                            setBarItems(oldBarItems => oldBarItems.map(oldItem => {
+                                                if(oldItem.id === null){
+                                                    return { ...oldItem, id: data.id }
+                                                }
+                                                return oldItem
+                                            }))
+                                            return { ...oldTable, barItems: data }
+                                        }
+                                        setKitchenItems(oldKitchenItems => oldKitchenItems.map(oldItem => {
+                                            if(oldItem.id === null){
+                                                return { ...oldItem, id: data.id }
+                                            }
+                                            return oldItem
+                                        }))
+                                        return { ...oldTable, kitchenItems: data }
+                                    }
+                                    return oldTable
+                                }))
                             })
                             .then(setnewItem(''))
-                    }}
+                    }}}
                 />
                 <RadioGroup
                     defaultValue=""
@@ -110,7 +135,6 @@ export default function TableInfoPage() {
                         index={index}
                         listOfItems={barItems}
                         setListOfItems={setBarItems}
-                        setFlag={setFlag}
                         deliveryUrl={`api/tables/${tableId}/bar/${item.id}/deliver`}
                         deleteUrl={`api/tables/${tableId}/bar/${item.id}`}
                         createItemUrl={`api/tables/${tableId}/bar`}
@@ -125,7 +149,6 @@ export default function TableInfoPage() {
                         index={index}
                         listOfItems={kitchenItems}
                         setListOfItems={setKitchenItems}
-                        setFlag={setFlag}
                         deliveryUrl={`api/tables/${tableId}/kitchen/${item.id}/deliver`}
                         deleteUrl={`api/tables/${tableId}/kitchen/${item.id}`}
                         createItemUrl={`api/tables/${tableId}/kitchen`}
