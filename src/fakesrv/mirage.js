@@ -42,7 +42,7 @@ export default createServer({
         this.delete("api/tables/:tableId/bar/:itemId", (schema, request) => {
             const table = schema.tables.find(request.params.tableId)
             const barItems = table.barItems            
-            barItems.splice(barItems.findIndex(item => item.id == request.params.itemId), 1)
+            barItems.splice(barItems.findIndex(item => item.id === request.params.itemId), 1)
             table.update({noBarItems: table.noBarItems -= 1})
             return barItems
         })
@@ -50,7 +50,7 @@ export default createServer({
         this.delete("api/tables/:tableId/kitchen/:itemId", (schema, request) => {
             const table = schema.tables.find(request.params.tableId)
             const kitchenItems = table.kitchenItems            
-            kitchenItems.splice(kitchenItems.findIndex(item => item.id == request.params.itemId), 1)
+            kitchenItems.splice(kitchenItems.findIndex(item => item.id === request.params.itemId), 1)
             table.update({noKitchenItems: table.noKitchenItems -= 1})
             return kitchenItems
         })
