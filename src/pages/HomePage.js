@@ -19,6 +19,7 @@ export default function HomePage() {
         <div className="list-of-tables">
           {tables.map(table => 
             <TableCard 
+              key={table.id}
               id={table.id}
               tableName={table.name}
               noBarItems={table.noBarItems}

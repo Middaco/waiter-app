@@ -21,9 +21,6 @@ export default function ChecklistItem(
                 style={{ marginRight: "0.25em" }}
                 checked={isChecked}
                 onChange={e => {
-                    fetch(deliveryUrl, {
-                        method: "POST"
-                    })
                     setIsChecked(e.target.checked)
                     setListOfItems(listOfItems.map(listItem => {
                         if (listItem.id === item.id) {
@@ -31,11 +28,17 @@ export default function ChecklistItem(
                         }
                         return listItem
                     }))
+                    fetch(deliveryUrl, {
+                        method: "POST"
+                    })
+                        .then(response => response.json())
+                        .then(data => setListOfItems(data))  
                 }}
             />
             <div
                 contentEditable="true"
                 value={item.item}
+                suppressContentEditableWarning={true}
                 style={{width: "90%", textDecoration: isChecked ? "line-through" : "none", fontSize: "1.25em"}}
                 onChange={(e) => {
                     setListOfItems(listOfItems.map(listItem => {
@@ -50,11 +53,15 @@ export default function ChecklistItem(
             </div>
             <DeleteIcon 
                 className="delete-button"
-                onClick={e => fetch(deleteUrl, {
-                    method:"delete"
-                })
-                    .then(response => response.json())
-                    .then(data => setListOfItems(data))
+                onClick={e => {
+                    setListOfItems(listOfItems.filter(listItem => listItem.id !== item.id))
+                    fetch(deleteUrl, {
+                        method:"DELETE"
+                    })
+                        .then(response => response.json())
+                        .then(data => setListOfItems(data))
+                        .then(() => {console.log("Deleted")})
+                    }
                 }
             />
         </div>

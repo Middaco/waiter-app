@@ -65,7 +65,7 @@ export default function TableInfoPage() {
                     }}
                     type="text" 
                     enterKeyHint="done"
-                    classname="input-field" 
+                    className="input-field" 
                     placeholder="Produs nou..."
                     value={newItem}
                     onChange = {e => setnewItem(e.target.value)}

@@ -12,8 +12,8 @@ function App() {
     fetch('/api/tables')
       .then(response => response.json())
       .then(data => setTables(data.tables))
-  // eslint-disable-next-line 
-    }, [tables])
+    // eslint-disable-next-line 
+    }, [])
   
   useEffect(() => {
     fetchTables();
@@ -24,7 +24,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Outlet context={{tables, setTables}} />}>
           <Route index element={<HomePage />} />
-          <Route path="/:id" element={<TableInfoPage />} />
+          <Route path=":id" element={<TableInfoPage />} />
         </Route>
         
       </Routes>

@@ -26,7 +26,8 @@ export default createServer({
         this.post("/api/tables", (schema) => {
             const newId = schema.tables.all().length + 1
             const newTable = {
-                id: newId, name: ``,
+                id: newId, 
+                name: ``,
                 isActive: true, 
                 noBarItems: 0, 
                 noKitchenItems: 0, 
@@ -41,8 +42,8 @@ export default createServer({
 
         this.delete("api/tables/:tableId/bar/:itemId", (schema, request) => {
             const table = schema.tables.find(request.params.tableId)
-            const barItems = table.barItems            
-            barItems.splice(barItems.findIndex(item => item.id === request.params.itemId), 1)
+            const barItems = table.barItems        
+            barItems.splice(barItems.findIndex(item => item.id === parseInt(request.params.itemId)), 1)
             table.update({noBarItems: table.noBarItems -= 1})
             return barItems
         })
@@ -50,7 +51,7 @@ export default createServer({
         this.delete("api/tables/:tableId/kitchen/:itemId", (schema, request) => {
             const table = schema.tables.find(request.params.tableId)
             const kitchenItems = table.kitchenItems            
-            kitchenItems.splice(kitchenItems.findIndex(item => item.id === request.params.itemId), 1)
+            kitchenItems.splice(kitchenItems.findIndex(item => item.id === parseInt(request.params.itemId)), 1)
             table.update({noKitchenItems: table.noKitchenItems -= 1})
             return kitchenItems
         })
@@ -111,14 +112,14 @@ export default createServer({
             const id = JSON.parse(request.params.id);
             const barItemId = JSON.parse(request.params.itemId);
             const table = schema.tables.find(id)
-            const barItem = table.barItems.find(item => item.id === barItemId)
+            const barItem = table.barItems.find(item => item.id === parseInt(barItemId))
             table.update({
                 barItems: table.barItems.map(
-                    item => item.id === barItemId ? {...item, isDelivered: !item.isDelivered} : item
+                    item => item.id === parseInt(barItemId) ? {...item, isDelivered: !item.isDelivered} : item
                 ),
                 noBarItems: barItem.isDelivered ? table.noBarItems + 1 : table.noBarItems - 1 
             })
-            return table
+            return table.barItems
         })
 
         this.post("api/tables/:id/kitchen/:itemId/deliver", (schema, request) => {
@@ -132,7 +133,7 @@ export default createServer({
                 ),
                 noKitchenItems: kitchenItem.isDelivered ? table.noKitchenItems + 1 : table.noKitchenItems - 1 
             })
-            return table
+            return table.kitchenItems
         })
     }
 })
