@@ -1,0 +1,28 @@
+.card-wrapper{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.waiter-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.icons-wrapper{
+    width: 15%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.access-code-field-wrapper{
+    display: block;
+}
+
+.access-code-field-wrapper > input{
+    width: 50%;
+}

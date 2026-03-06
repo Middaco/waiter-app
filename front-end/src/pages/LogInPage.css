@@ -1,0 +1,39 @@
+.page-wrapper{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo-wrapper{
+    justify-self: flex-start;
+    align-content: center;
+    flex-grow: 0.25;
+}
+
+.log-in-wrapper{
+    display: flex;
+    flex-grow: 2;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0px;
+    width: 100vw;
+    height: fit-content;
+}
+
+.user-code-and-icon-group{
+    width: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+.log-in-button{
+    width: 75%;
+}
+.user-code{
+    width: 50%;
+}

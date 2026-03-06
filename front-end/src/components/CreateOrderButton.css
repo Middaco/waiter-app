@@ -1,0 +1,15 @@
+.create-table-button{
+    background-color: whitesmoke;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin: 1.5em;
+    padding-inline: 10px;
+    width: 95%;
+    height: 10em;
+    margin-bottom: 0;
+    border-style: dashed;
+}
+
+.create-table-button:active{
+    box-shadow: 2px 2px 5px #fc894d;;
+}

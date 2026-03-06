@@ -1,0 +1,40 @@
+.table-info-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5em;
+    margin-inline: 1em;
+}
+
+.table-info-container{
+    margin: 1em;
+}
+
+.items-list-container{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em
+}
+
+.table-info-name{
+    font-size: 3.5em;
+    width: 70%;
+    border: none;
+    margin-right: 1rem;
+}
+
+.table-info-name:focus{
+    outline: none;
+}
+
+.options{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 1em;
+}
+
+.input-container{
+    margin-block: 0px;
+}
