@@ -1,0 +1,17 @@
+.waiter-card{
+    background-color: gainsboro;
+    margin-inline: 1rem;
+    border-radius: 7px;
+    padding-inline: 1rem;
+    margin-block: 1rem;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.waiter-card > h1, h2{
+    margin-block: 0.5rem;
+}
+

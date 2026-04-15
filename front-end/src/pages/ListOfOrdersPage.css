@@ -1,0 +1,22 @@
+.home-page-container{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.list-of-tables{
+    box-sizing: border-box;
+    padding-left: 0;
+    width: 90vw;
+}
+
+.options>#user-greeting{
+    text-align: center;
+    cursor: default;
+    margin: 0px;
+    flex-grow: 2;
+    font-size: larger;
+}

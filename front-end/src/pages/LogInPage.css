@@ -1,0 +1,38 @@
+
+
+.logo-wrapper{
+    justify-self: flex-start;
+    align-content: center;
+    padding-top: 4em;
+}
+
+.log-in-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0px;
+    width: 100vw;
+    height: fit-content;
+}
+
+.user-code-and-icon-group{
+    width: inherit;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.waiter-icon{
+    height: 50vh;
+}
+
+.log-in-button{
+    width: 75%;
+    max-width: 650px;
+}
+.user-code{
+    width: 50%;
+}

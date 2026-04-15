@@ -1,0 +1,55 @@
+.table-card-timer{
+    border-radius: 100px;
+    width: 10em;
+    display: flex;
+    justify-content: center;
+
+/* Folosim variabila --procent pentru a controla pozitia */
+  background: linear-gradient(to right, #2ecc71 50%, #e74c3c 50%);
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  
+  /* Calculăm poziția: la 0% progres -> background-position: 0% */
+  /* La 100% progres -> background-position: -100% */
+  background-position: calc(clamp(0, var(--procent), 100) * 1%) 0%;
+  
+  /* Tranziție lină când se schimbă procentul */
+  transition: background-position 0.5s ease-out;
+}
+
+@keyframes gradient {
+  from {
+    background-position: 0% 0%;
+  }
+  to {
+    background-position: -100% 0%;
+  }
+}
+
+.on-fire {
+  animation: flicker 1s infinite;
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 40px rgba(255, 140, 0, 0.6);
+  border: 2px solid red;
+  background: rgba(255, 50, 0, 0.1);
+}
+
+.delivered{
+    opacity: 0.25;
+}
+
+@keyframes flicker {
+  0% { opacity: 1; }
+  50% { opacity: 0.85; }
+  100% { opacity: 1; }
+}
+
+@keyframes flame {
+  0% { transform: scaleY(1) translateY(0); opacity: 1; }
+  50% { transform: scaleY(1.1) translateY(-5px); opacity: 0.8; }
+  100% { transform: scaleY(1) translateY(0); opacity: 1; }
+}
+
+.flame {
+  background-image: url('../images/Flăcări\ Pixelate\ Retro.png');
+  animation: flame 1s infinite;
+}

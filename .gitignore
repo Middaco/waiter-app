@@ -1,0 +1,16 @@
+# Dependente
+node_modules/
+
+# Environment variables (FOARTE IMPORTANT)
+.env
+*.env
+.env.local
+
+# Build-uri
+dist/
+build/
+
+# Logs si IDE
+npm-debug.log*
+.vscode/
+.DS_Store

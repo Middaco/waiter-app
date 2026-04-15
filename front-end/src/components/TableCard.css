@@ -1,0 +1,23 @@
+.table-card-wrapper{
+    display: flex;
+    flex-direction: row;
+    margin-block: 1rem;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.icon-wrapper{
+    display: flex;
+    flex-direction: row;
+    margin-inline: 1rem;
+    justify-content: space-between;
+    width: 13%;
+}
+
+.table-card-wrapper>input{
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    border: none;
+    flex-grow: 2;
+}

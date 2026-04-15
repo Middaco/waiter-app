@@ -1,0 +1,5 @@
+
+.users-list-container{
+    width: 80%;
+    overflow-y: scroll;
+}
