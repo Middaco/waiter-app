@@ -1,0 +1,20 @@
+.statistics-page-content-wrapper{
+    height: 100%;
+}
+
+.statistics-page-chart-wrapper{
+    height: 50%;
+}
+
+.statistics-page-details{
+    height: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.statistics-page-details-column{
+    display: flex;
+    flex-direction: column;
+}

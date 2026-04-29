@@ -7,11 +7,30 @@ const orderRouter = express.Router()
 
 orderRouter.use(authenticateToken)
 
-const canTableBeClosed = (table) => {
-    if(table.noBarItems === 0 && table.noKitchenItems === 0){
-        table.isActive = false
-        table.deliveredAt = new Date().toISOString()
-        console.log(table)
+const canOrderBeClosed = (order) => {
+    let allItemsAreDelivered = true
+
+    order.barItems.forEach(item => {
+        if(!allItemsAreDelivered){
+            return
+        }
+        if(!item.isDelivered){
+            allItemsAreDelivered = false
+        }
+    });
+    order.kitchenItems.forEach(item => {
+        if(!allItemsAreDelivered){
+            return
+        }
+        if(!item.isDelivered){
+            allItemsAreDelivered = false
+        }
+    })
+
+    if(allItemsAreDelivered){
+        order.isActive = false
+        order.deliveredAt = new Date().toISOString()
+        //console.log(table)
         return true
     }
     return false
@@ -240,6 +259,13 @@ orderRouter.post("/table/:id/newItem", async (req, res) =>{
     const { newItem, type} = req.body
     
     const order = await orderModel.findOne({_id: orderId})
+
+    if(!order.isActive){
+        order.isActive = true
+        order.orderTakenAt = new Date().toISOString()
+        order.deliveredAt = ""
+        await order.save()
+    }
     
     const barItems = order.barItems
     const kitchenItems = order.kitchenItems
@@ -278,16 +304,16 @@ orderRouter.patch("/orders/:id/bar/:itemId/deliver", async (req, res) => {
     }
 
     order.barItems[barItemIndex].isDelivered = isItemDelivered
-    await order.save()
 
-    return res.status(200).send(order.barItems)
+    //return res.status(200).send(order.barItems)
 
-    //TODO: test this later
-    if(canTableBeClosed(table)){
+    if(canOrderBeClosed(order)){
         res.status(201).send({success: true, message: "Table closed"})
     }else{
-        res.status(200).send(table.barItems)
+        res.status(200).send(order.barItems)
     }
+
+    await order.save()
 })
 
 orderRouter.patch("/orders/:id/kitchen/:itemId/deliver", async (req, res) => {
@@ -309,16 +335,16 @@ orderRouter.patch("/orders/:id/kitchen/:itemId/deliver", async (req, res) => {
     }
 
     order.kitchenItems[kitchemItemIndex].isDelivered = isItemDelivered
-    await order.save()
-
-    return res.status(200).send(order.kitchenItems)
+    //return res.status(200).send(order.kitchenItems)
 
     //TODO: test this later
-    if(canTableBeClosed(table)){
+    if(canOrderBeClosed(order)){
         res.status(201).send({success: true, message: "Table closed"})
     }else{
-        res.status(200).send(table.barItems)
+        res.status(200).send(order.barItems)
     }
+
+    await order.save()
 })
 
 module.exports = {orderRouter}

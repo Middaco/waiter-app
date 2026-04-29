@@ -12,8 +12,12 @@ export default function Timer(
 
     const [minutes, setMinutes] = useState(-1)
     const [seconds, setSeconds] = useState(-1)
-    const percent = (((new Date().getTime() - convertedTimeOrderWasPicked) / 1000) / 600) * 100
+    let percent = (((new Date().getTime() - convertedTimeOrderWasPicked) / 1000) / 600) * 100
     
+    if(deliveredAt){
+        percent = (((new Date(deliveredAt).getTime() - convertedTimeOrderWasPicked)/ 1000)/600) * 100
+    }
+
     useEffect(() => {
         const interval = setInterval(() => {
             if (!isActive) {

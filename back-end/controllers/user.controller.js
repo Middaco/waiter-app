@@ -42,6 +42,13 @@ userRouter.patch('/unassignTable/:_id', async (req, res) => {
     res.status(200).send(user)
 })
 
+//GET a specific user
+userRouter.get('/user/:id', async(req, res) => {
+    const {id} = req.params
+    const user = await userModel.findOne({_id: id})
+    res.status(200).send(user)
+})
+
 //GET waiters and shift leaders
 userRouter.get('/waiters', async (req, res) => {
     const waitersList = await userModel.find({$or:[{role: 'waiter'}, {role: 'shiftLeader'}]})

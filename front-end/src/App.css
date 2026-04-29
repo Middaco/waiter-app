@@ -43,3 +43,10 @@
     align-items: center;
     justify-content: center;
 }
+
+/*wrapper for lists of buttons*/
+.button-list-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

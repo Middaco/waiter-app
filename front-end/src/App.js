@@ -13,6 +13,8 @@ import AssignTablesPage from './pages/AssignTablesPage';
 import ManageTablesPage from './pages/ManageTablesPage';
 import ManageUsersPage from './pages/ManageUsersPage';
 import TablesStatisticsPage from './pages/TablesStatisticsPage'
+import DetailedTableStatisticsPage from './pages/DetailedTableStatisticsPage';
+import OrderStatisticsPage from './pages/OrderStatisticsPage';
 
 function App() {
   const [orders, setOrders] = useState([]);
@@ -72,8 +74,26 @@ function App() {
           />
           <Route
             path='statistics'
-            element={<TablesStatisticsPage/>}
-          />
+            element={<Outlet/>}
+          >
+            <Route
+              index
+              element={<TablesStatisticsPage/>}
+            />
+            <Route
+              path=':id'
+              element={<Outlet/>}
+            >
+              <Route
+                index
+                element={<DetailedTableStatisticsPage/>}
+              />
+              <Route
+                path=":orderId"
+                element={<OrderStatisticsPage/>}
+              />
+            </Route>
+          </Route>
         </Route>
 
         <Route element = { <RequireAuth
