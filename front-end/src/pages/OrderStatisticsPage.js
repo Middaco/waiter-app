@@ -59,7 +59,7 @@ export default function OrderStatisticsPage(){
                                 Taken At: {new Date(order.orderTakenAt).toString().slice(0, new Date(order.orderTakenAt).toString().search(/(GMT)/))}
                             </Typography>
                             <Typography>
-                                Delivered At: {order.orderDeliveredAt ? new Date(order.orderDeliveredAt).toString().slice(0, new Date(order.orderDeliveredAt).toString().search(/(GMT)/)) : ""}
+                                Delivered At: {order.deliveredAt ? new Date(order.deliveredAt).toString().slice(0, new Date(order.deliveredAt).toString().search(/(GMT)/)) : ""}
                             </Typography>
                         </div>
                         <div className="statistics-page-details-column">

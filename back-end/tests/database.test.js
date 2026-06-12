@@ -7,14 +7,14 @@ const client = require('mongodb')
 let mongoServer;
 let mongoClient;
 
-beforeAll(
+before(
     async () => {
         mongoServer = await mongosrv.MongoMemoryServer.create()
         mongoClient = await client.MongoClient.connect(mongoServer.getUri())
     }
 )
 
-afterAll(
+after(
     async () => {
         if(mongoClient){
             await mongoClient.close()

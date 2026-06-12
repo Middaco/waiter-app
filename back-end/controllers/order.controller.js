@@ -30,7 +30,8 @@ const canOrderBeClosed = (order) => {
     if(allItemsAreDelivered){
         order.isActive = false
         order.deliveredAt = new Date().toISOString()
-        //console.log(table)
+// new line added
+        order.save()
         return true
     }
     return false

@@ -13,7 +13,7 @@ const RequireAuth = ({
     return(
         requiredRole.find(role => role === user.role)
         ? <Outlet/>
-        : <Navigate to= '/listOfTables' state = {{from: location}} replace/>
+        : <Navigate to= '/listOfOrders' state = {{from: location}} replace/>
     )
 }
 

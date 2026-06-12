@@ -41,7 +41,7 @@ export default function CreateOrderButton({
               }}
         >
             <h1>
-                Crează masă
+                Creează comandă
             </h1>
         </button>
     )

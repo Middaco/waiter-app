@@ -24,7 +24,7 @@ export default function ListOfOrdersPage() {
         fetchOrders(accessToken)
         setWaiter(jwtDecode(accessToken))
       }
-    }, [accessToken])
+    }, [accessToken, fetchOrders, setWaiter])
 
     const {orders} = useOutletContext();
     const {alertOpen, setAlertOpen, alertMessage, setAlertMessage, alertSeverity, setAlertSeverity} = useOutletContext()
